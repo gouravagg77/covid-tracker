@@ -1,0 +1,10 @@
+.dropdown_menu {
+    height: 170px;
+    overflow-y: scroll;
+}
+
+.formControl {
+  width: 30%;
+  margin-top: 30px;
+  margin-bottom:  30px;
+}
