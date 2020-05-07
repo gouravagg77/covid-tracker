@@ -3,3 +3,9 @@
     justify-content: center;
     width: 85%;
 }
+
+@media screen and (max-width: 600px) {
+    .chart {
+        height: 250px;
+    }
+}

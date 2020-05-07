@@ -25,6 +25,7 @@ function Charts({data: {confirmedCases, recoveredCases, deaths}, country}) {
         dailyData.length 
         ? (
         <Line 
+          className = {styles.chart}
           data = {{ 
               labels: dailyData.map(({date}) => date),
               datasets: [{
@@ -47,6 +48,10 @@ function Charts({data: {confirmedCases, recoveredCases, deaths}, country}) {
               },
             ],
           }}
+          options ={{
+           maintainAspectRatio: false,
+            
+        }}
         /> ) : null
     );
     console.log('confirmed',confirmedCases);
@@ -68,14 +73,18 @@ function Charts({data: {confirmedCases, recoveredCases, deaths}, country}) {
             }}
             options ={{
                 legend: {display: false},
-                title: {dispaly: true, text: `Current status in ${country? country.name : 'World'}`}
+                title: {dispaly: true, text: `Current status in ${country? country.name : 'World'}`},
+                maintainAspectRatio: false,
+                
             }}
             />
         ) : null
     )
     return (
         <Container className={styles.container}>
+            <div className={styles.chart}>
             {Object.keys(country).length  ? lineChart : barChart}
+            </div>
         </Container>
     )
 }
