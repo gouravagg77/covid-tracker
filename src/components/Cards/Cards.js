@@ -12,22 +12,27 @@ const Cards =({data: {confirmedCases, recoveredCases, deaths, lastUpdate}}) => {
     const covidData = [
         {
             category: 'Infected people',
-            number: confirmedCases.value
+            number: confirmedCases,
+            bg: 'Warning',
         },
         {
             category: 'Recovered people',
-            number: recoveredCases.value
+            number: recoveredCases,
+            bg: 'Success',
         },
         {
             category: 'Deaths',
-            number: deaths.value
+            number: deaths,
+            bg: 'Danger',
         }
     ];
     
     renderList = covidData.map((data) => 
      {
         return(  
-            <Card key={data.category}>
+            <Card
+            border={data.bg.toLowerCase()}
+            key={data.category}>
                 <Card.Body>
                 <Card.Title>{data.category}</Card.Title>
                 <Card.Text>
