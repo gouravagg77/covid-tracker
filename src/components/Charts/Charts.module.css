@@ -1,11 +1,63 @@
 .container{
-    display: flex;
+    margin: auto;
     justify-content: center;
-    width: 85%;
+    width: 70%;
 }
 
-@media screen and (max-width: 600px) {
+.view{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.button{
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: none;
+    outline:none;
+    border: none;
+}
+
+.button:focus{
+    outline:none;
+ 
+}
+.buttonChart{
+    border-bottom: 5px solid rosybrown;
+}
+
+.buttonMap{
+    border-bottom: 5px solid bisque;
+}
+
+.chart{
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 13px;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 15px;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px ) {
     .chart {
-        height: 250px;
+        height: 350px;
+        width: 98%;
+    }
+}
+
+@media only screen and (min-width: 601px) {
+    .chart {
+        height: 350px;
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 901px) {
+    .chart {
+        height: 550px;
+        width: 85%;
     }
 }
