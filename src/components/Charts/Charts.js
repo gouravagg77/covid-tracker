@@ -7,20 +7,18 @@ import { Container } from 'react-bootstrap';
 import Map from '../Map/Map'
 
 function Charts({ data: { confirmedCases, recoveredCases, deaths }, country }) {
-    //console.log("***************", country);
+
     const [dailyData, setDailyData] = useState([]);
     const [chartView, setchartView] = useState(true);
     const [mapView, setmapView] = useState(false);
 
-    // const mapbox_token = 'pk.eyJ1IjoiZ291cmF2YWdnNzciLCJhIjoiY2thcGlvZnNzMGFlaTJwbXMyYW5lMTB6bCJ9.OqepxzytNtzWhCN3LeGtgg';
     useEffect(() => {
-        //console.log('object');
+
         const fetchAPI = async () => {
             const initialDailyData = await fetchDailyData(country);
-            //console.log("****",initialDailyData);
             setDailyData(initialDailyData);
         }
-        //console.log("daily",dailyData);
+
         fetchAPI();
     }, [country]);
 
@@ -35,29 +33,36 @@ function Charts({ data: { confirmedCases, recoveredCases, deaths }, country }) {
     }
 
     const lineChart = (
-        dailyData.length
+        Object.keys(dailyData).length
             ? (
                 <Line
                     className={styles.chart}
                     data={{
-                        labels: dailyData.map(({ date }) => date),
+                        labels: dailyData.dates.map(date => date),
                         datasets: [{
-                            data: dailyData.map(({ confirmedCases }) => confirmedCases),
+                            data: dailyData.confirmedCases.map( cases  => cases),
                             label: 'Infected',
                             borderColor: '#3333ff',
+                            //backgroundColor: 'rgba(0, 0, 255, 0.5)',
                             fill: true,
+                            pointRadius: 0,
+                            borderWidth: 2,
                         }, {
-                            data: dailyData.map(({ deaths }) => deaths),
+                            data: dailyData.deaths.map( death => death),
                             label: 'Deaths',
                             borderColor: 'red',
-                            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                            //backgroundColor: 'rgba(255, 0, 0, 0.5)',
                             fill: true,
+                            pointRadius: 0,
+                            borderWidth: 2,
                         }, {
-                            data: dailyData.map(({ recoveredCases }) => recoveredCases),
+                            data: dailyData.recoveredCases.map( cases  => cases),
                             label: 'Recovered',
                             borderColor: 'green',
-                            backgroundColor: 'rgba(0, 255, 0, 0.5)',
+                            //backgroundColor: 'rgba(0, 255, 0, 0.5)',
                             fill: true,
+                            pointRadius: 0,
+                            borderWidth: 2,
                         },
                         ],
                     }}
@@ -66,8 +71,6 @@ function Charts({ data: { confirmedCases, recoveredCases, deaths }, country }) {
                     }}
                 />) : null
     );
-
-    //console.log('confirmed',confirmedCases);
 
     const barChart = (
         confirmedCases
@@ -100,13 +103,13 @@ function Charts({ data: { confirmedCases, recoveredCases, deaths }, country }) {
                 <button className={chartView ? `${styles.button} ${styles.buttonChart}` : `${styles.button}`} onClick={() => setView('chart')}>View Charts</button>
                 <button className={mapView ? `${styles.button} ${styles.buttonMap}` : `${styles.button}`} onClick={() => setView('map')}>View Map</button>
             </div>
-            <Container className={styles.container}>
-                <div className={`${styles.chart} ${styles.container}`}>
+            <Container className={`${styles.chart} ${styles.container}`}>
+                {/* <div className={`${styles.chart} ${styles.container}`}> */}
                     {chartView
                         ? Object.keys(country).length ? lineChart : barChart
                         : <Map country={country} />
                     }
-                </div>
+                {/* </div> */}
             </Container>
         </Container>
     )

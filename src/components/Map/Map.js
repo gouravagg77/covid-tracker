@@ -19,12 +19,12 @@ class Map extends Component {
     async componentDidMount() {
 
         const data = await fetchMapData();
-        if (Object.keys(this.props.country).length == 0) {
+        if (!this.props.country) {
             this.setState({ data });
         } else {
             let occurs = new Boolean(false);
             data.forEach(country => {
-                if (country.country.toUpperCase() === this.props.country.Country.toUpperCase()) {
+                if (country.country.toUpperCase() === this.props.country.toUpperCase()) {
                     occurs = true;
                     this.setState({
                         data: data,
@@ -36,10 +36,8 @@ class Map extends Component {
             })
             if (occurs == false) {
                 this.setState({ data });
-
             }
         }
-
 
         const map = new mapboxgl.Map({
             container: this.mapContainer,
@@ -58,46 +56,40 @@ class Map extends Component {
 
         let arr = [];
 
-        data.forEach(report => {
-            const { countryInfo, cases, deaths, recovered } = report;
-            const value = {
-                'type': 'Feature',
-                'properties': {
-                    'description':
-                        `<div style="
+        data.forEach(countryData => {
+            const { country, countryInfo, cases, deaths, recovered, active } = countryData;
+
+            const html = `<div style="
                             width: 120px;
-                            height: 120px;
+                            height: 150px;
                             cursor: pointer;
-                        "> <img src=${countryInfo.flag} width="20" height="10" alt='flag'/><strong style={{paddingLeft: 20}}>${countryInfo.iso3}</strong><p>Total:${cases}</p><p>Deaths:${deaths}</p><p>Recovered:${recovered}</p></div>`,
-                },
-                'geometry': {
-                    'type': 'Point',
-                    'coordinates': [countryInfo.long, countryInfo.lat]
-                },
-            };
-            arr.push(value);
+                        "> <img src=${countryInfo.flag} width="20" height="10" alt='flag'/>
+                           <strong style={{paddingLeft: 20}}>${country}</strong>
+                           <p>Total:${cases}</p>
+                           <p>Deaths:${deaths}</p>
+                           <p>Recovered:${recovered}</p>
+                           <p>Active:${active}</p>
+                           </div>`;
 
-            const color = `rgb(${cases / 7050} ,0 ,0)`;
+            arr.push(html);
 
-            var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-                value.properties.description
-            );
+            const color = `rgb(${cases / 6000} ,0 ,0)`;
+
+            var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(html);
 
             var el = document.createElement('div');
-            el.id = styles.marker;
+            el.className = 'marker';
 
             new mapboxgl.Marker({
                 draggable: false,
-                color: color
+                color: color,
             })
                 .setLngLat([countryInfo.long, countryInfo.lat])
                 .setPopup(popup)
                 .addTo(map);
-
-
         });
-
     }
+
     render() {
         return (
             <div className={`${styles.map}`}>

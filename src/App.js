@@ -10,7 +10,7 @@ class App extends Component {
 
         this.state = {
             data: {},
-            country: {},
+            country: "",
         }
     }
 
@@ -19,17 +19,14 @@ class App extends Component {
         this.setState({
             data: fetchedData
         });
-        //console.log("in app.js",fetchedData);
     }
 
     handleCountryChange = async (country) => {
         const fetchedData = await fetchData(country);
-        console.log(fetchedData, country);
         this.setState({
             data: fetchedData,
             country: country
         });
-        //console.log("444$",this.state);
     }
 
     render() {

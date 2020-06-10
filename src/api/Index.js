@@ -1,71 +1,67 @@
 import axios from 'axios'
 
-const url = 'https://api.covid19api.com/';
-const mapUrl = 'https://corona.lmao.ninja/v2/countries';
+const url = 'https://disease.sh/v2/';
 
 export const fetchData = async (country) => {
-
+    let changeableUrl;
+    if (!country) {
+        changeableUrl = `${url}all`;
+    }
+    else {
+        changeableUrl = `${url}countries/${country}`;
+    }
     try {
-        //console.log(changeableUrl);
-        const { data } = await axios.get(`${url}summary`);
-        console.log("111111", data);
-        let countryData = {};
-        for (let i = 0; i < data.Countries.length; i++) {
-            countryData[`${data.Countries[i].Country}`] = {
-                confirmedCases: data.Countries[i].TotalConfirmed,
-                recoveredCases: data.Countries[i].TotalRecovered,
-                deaths: data.Countries[i].TotalDeaths,
-                lastUpdate: data.Countries[i].Date,
-            }
+        const { data } = await axios.get(changeableUrl);
+
+        const modifiedData = {
+            confirmedCases: data.cases,
+            recoveredCases: data.recovered,
+            deaths: data.deaths,
+            lastUpdate: data.updated,
         }
-        console.log("1223", countryData)
-        if (country) {
-            const modifiedData = countryData[country.Country];
-            console.log("fetched country", modifiedData);
-            return modifiedData;
-        } else {
-            const modifiedData = {
-                confirmedCases: data.Global.TotalConfirmed,
-                recoveredCases: data.Global.TotalRecovered,
-                deaths: data.Global.TotalDeaths,
-                lastUpdate: data.Date.substring(0, 10),
-            }
-            console.log("fetched", modifiedData);
-            return modifiedData;
-        }
+
+        return modifiedData;
+
     } catch (error) {
         console.log(error)
     }
 }
 
 export const fetchDailyData = async (country) => {
-    if (Object.keys(country).length === 0) {
+    if (!country) {
         return [];
     }
     try {
-        //console.log("country daily data!!!!")
-        const { data } = await axios.get(`${url}live/country/${country.Slug}/status/confirmed`);
-        console.log("1111", data);
-        const modifiedData = data.map((daily) => ({
-            confirmedCases: daily.Confirmed,
-            recoveredCases: daily.Recovered,
-            deaths: daily.Deaths,
-            date: daily.Date.substring(0, 10),
-        }));
-        console.log("daily modified data", modifiedData)
-        return modifiedData;
+        const { data } = await axios.get(`${url}historical?lastdays=all`);
+
+        let dailyData = {};
+        for (let i = 0; i < data.length; i++) {
+            dailyData[data[i].country] =  data[i].timeline ;
+        }
+
+        const dates = Object.keys(dailyData[country].cases);
+        const cases = dates.map(date =>  dailyData[country].cases[date]);
+        const recovered = dates.map(date =>  dailyData[country].recovered[date]);
+        const deaths = dates.map(date =>  dailyData[country].deaths[date]);
+ 
+        const countryDaily = {
+            dates,
+            confirmedCases: cases,
+            recoveredCases: recovered,
+            deaths: deaths
+        }
+        return countryDaily;
     }
     catch{
 
     }
 }
 
-
 export const fetchCountries = async () => {
     try {
-        const countries = await axios.get(`${url}countries`);
-        console.log("in api", countries.data);
-        return countries.data;
+        const { data } = await axios.get(`${url}countries`);
+        const countries = data.map((country) => country.country);
+        return countries;
     } catch {
 
     }
@@ -73,12 +69,9 @@ export const fetchCountries = async () => {
 
 export const fetchMapData = async () => {
     try {
-
-        const { data } = await axios.get(mapUrl);
-
+        const { data } = await axios.get(`${url}countries`);
         return data;
     } catch (err) {
         console.log(err);
     }
 }
-

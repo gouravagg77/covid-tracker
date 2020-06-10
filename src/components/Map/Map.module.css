@@ -25,8 +25,8 @@
 .marker {
 
     background-size: cover;
-    width: 50px;
-    height: 40px;
+    width: 5px;
+    height: 4px;
     border-radius: 5%;
     cursor: pointer;
-    }
+}

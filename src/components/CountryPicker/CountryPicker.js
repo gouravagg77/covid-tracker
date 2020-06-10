@@ -12,26 +12,17 @@ function CountryPicker({ handleCountryChange }) {
     useEffect(() => {
         const fetchCountriesAPI = async () => {
             const list = await fetchCountries();
-            function compare(a, b) {
-                if (a.Country > b.Country) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-            list.sort(compare);
             setCountries(list);
         }
-        console.log("countrypicker", countries);
+
         fetchCountriesAPI();
     }, [setCountries]);
 
     const handleSelectedCountry = (country) => {
-        setSelectedItem(country.Country);
+        setSelectedItem(country);
         handleCountryChange(country);
     }
-    //   console.log(countries);
-
+    
     return (
         <div>
             <FormGroup className={styles.formControl}>
@@ -40,7 +31,7 @@ function CountryPicker({ handleCountryChange }) {
                         {selectedItem ? selectedItem : "Select a country"}
                     </Dropdown.Toggle>
                     <Dropdown.Menu className={styles.dropdown_menu}>
-                        {countries.map((country, i) => <Dropdown.Item onSelect={() => handleSelectedCountry(country)} key={i}>{country.Country}</Dropdown.Item>)}
+                        {countries.map((country, i) => <Dropdown.Item onSelect={() => handleSelectedCountry(country)} key={i}>{country}</Dropdown.Item>)}
                     </Dropdown.Menu>
                 </Dropdown>
             </FormGroup>

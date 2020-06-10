@@ -37,27 +37,27 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-bottom: 15px;
     position: relative;
-    height: 100%;
-    width: 100%;
 }
 
-@media only screen and (max-width: 600px ) {
+
+@media only screen and (min-width: 1024px) {
     .chart {
-        height: 350px;
-        width: 98%;
+        height: 500px;
+        width: 80%;
     }
 }
 
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 768px ) and (max-width: 1023px ) {
     .chart {
         height: 350px;
         width: 90%;
     }
 }
 
-@media only screen and (min-width: 901px) {
+@media only screen and (max-width: 767px) {
     .chart {
-        height: 550px;
-        width: 85%;
+        height: 350px;
+        width: 100%;
     }
 }
+

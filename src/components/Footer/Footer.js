@@ -4,12 +4,7 @@ import styles from './Footer.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faGithub,
-    faGoogle,
-    faFacebook,
-    faLinkedin
-} from '@fortawesome/free-brands-svg-icons';
-
-
+    faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 function Footer() {
     const d = new Date();

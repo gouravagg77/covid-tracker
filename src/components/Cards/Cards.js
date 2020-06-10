@@ -2,8 +2,6 @@ import React from 'react'
 import { Card, Container, CardDeck } from 'react-bootstrap'
 import CountUp from 'react-countup'
 
-import styles from './Cards.module.css'
-
 const Cards = ({ data: { confirmedCases, recoveredCases, deaths, lastUpdate } }) => {
     let renderList;
     if (!confirmedCases) {
@@ -59,9 +57,4 @@ const Cards = ({ data: { confirmedCases, recoveredCases, deaths, lastUpdate } })
     )
 }
 
-
-
-
-
-
-export default Cards
+export default Cards;
