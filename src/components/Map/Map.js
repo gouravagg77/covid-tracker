@@ -34,7 +34,7 @@ class Map extends Component {
                     })
                 }
             })
-            if (occurs == false) {
+            if (occurs === false) {
                 this.setState({ data });
             }
         }

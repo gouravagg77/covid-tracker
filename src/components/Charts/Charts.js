@@ -8,7 +8,7 @@ import Map from '../Map/Map'
 
 function Charts({ data: { confirmedCases, recoveredCases, deaths }, country }) {
 
-    const [dailyData, setDailyData] = useState([]);
+    const [dailyData, setDailyData] = useState({});
     const [chartView, setchartView] = useState(true);
     const [mapView, setmapView] = useState(false);
 
@@ -98,7 +98,9 @@ function Charts({ data: { confirmedCases, recoveredCases, deaths }, country }) {
     )
 
     return (
+    
         <Container>
+            {country &&}
             <div className={styles.view}>
                 <button className={chartView ? `${styles.button} ${styles.buttonChart}` : `${styles.button}`} onClick={() => setView('chart')}>View Charts</button>
                 <button className={mapView ? `${styles.button} ${styles.buttonMap}` : `${styles.button}`} onClick={() => setView('map')}>View Map</button>

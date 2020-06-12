@@ -32,17 +32,12 @@ export const fetchDailyData = async (country) => {
         return [];
     }
     try {
-        const { data } = await axios.get(`${url}historical?lastdays=all`);
-
-        let dailyData = {};
-        for (let i = 0; i < data.length; i++) {
-            dailyData[data[i].country] =  data[i].timeline ;
-        }
-
-        const dates = Object.keys(dailyData[country].cases);
-        const cases = dates.map(date =>  dailyData[country].cases[date]);
-        const recovered = dates.map(date =>  dailyData[country].recovered[date]);
-        const deaths = dates.map(date =>  dailyData[country].deaths[date]);
+        const { data } = await axios.get(`${url}historical/${country}?lastdays=all`);
+        
+        const dates = Object.keys(data.timeline.cases);
+        const cases = dates.map(date =>  data.timeline.cases[date]);
+        const recovered = dates.map(date =>  data.timeline.recovered[date]);
+        const deaths = dates.map(date =>  data.timeline.deaths[date]);
  
         const countryDaily = {
             dates,
@@ -50,6 +45,7 @@ export const fetchDailyData = async (country) => {
             recoveredCases: recovered,
             deaths: deaths
         }
+
         return countryDaily;
     }
     catch{
